@@ -14,6 +14,7 @@ public class Drawer extends Canvas {
         setOnMousePressed(event->context.mousePressed(event));
         setOnMouseReleased(event->context.mouseReleased(event));
         setOnMouseMoved(event->context.mouseMoved(event));
+        setOnMouseDragged(event->context.mouseMoved(event));
         setOnKeyPressed(event -> context.keyPressed(event));
     }
 
