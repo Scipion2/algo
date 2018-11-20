@@ -4,9 +4,13 @@ import javafx.event.Event;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Drawer extends Canvas {
     DrawerContext context = new DrawerContext(this);
+    List<DrawerState> shapes=new ArrayList<>();
 
     public Drawer(int width, int height) {
         super(width,height);
@@ -20,6 +24,10 @@ public class Drawer extends Canvas {
 
     public void repaint(){
         this.getGraphicsContext2D().clearRect(0,0,this.getWidth(),this.getHeight());
+    }
+
+    public void add(DrawerState shape){
+        shapes.add(shape);
     }
 
 
