@@ -23,7 +23,7 @@ public class Drawer extends Canvas {
     }
 
     public void repaint(){
-        this.getGraphicsContext2D().clearRect(0,0,this.getWidth(),this.getHeight());
+            this.getGraphicsContext2D().clearRect(0, 0, this.getWidth(), this.getHeight());
     }
 
     public void add(DrawerState shape){

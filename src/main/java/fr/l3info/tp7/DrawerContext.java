@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 public class DrawerContext {
 
     Drawer drawer;
-    DrawerState currentState;
+    DrawerState currentState=new NullDrawerState();
 
     public DrawerContext(Drawer drawer) {
         this.drawer = drawer;
@@ -44,9 +44,23 @@ public class DrawerContext {
     void keyPressed(KeyEvent event) {
         switch (event.getText()) {
             case "d":
-                drawer.repaint();
+                if(!drawer.shapes.isEmpty()) {
+                    drawer.repaint();
+                    drawer.shapes.clear();
+                }
+                break;
+
             case "c":
                 setState(new CircleDrawerState0());
+                break;
+
+            case "r":
+                setState(new RectangleDrawerState0());
+                break;
+
+            case "m":
+                setState(new MoveDrawerState0());
+                break;
         }
     }
 

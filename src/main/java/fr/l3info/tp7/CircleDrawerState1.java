@@ -36,4 +36,15 @@ public class CircleDrawerState1 implements DrawerState {
         graphicsContext.setFill(new Color(0,0,1,0.5));
         graphicsContext.fillOval(x-radius,y-radius,2*radius,2*radius);
     }
+
+    @Override
+    public boolean contains ( double x, double y){
+        return (this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)<=radius*radius;
+    }
+
+    @Override
+    public void translate(double x,double y){
+        this.x+=x;
+        this.y+=y;
+    }
 }

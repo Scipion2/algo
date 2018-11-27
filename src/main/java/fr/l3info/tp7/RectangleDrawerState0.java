@@ -2,10 +2,10 @@ package fr.l3info.tp7;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public class CircleDrawerState0 implements DrawerState {
+public class RectangleDrawerState0 implements DrawerState {
     @Override
     public void mousePressed(DrawerContext context, double x, double y) {
-        context.setState(new CircleDrawerState1(x,y,0));
+        context.setState(new RectangleDrawerState1(x,y,0,0));
     }
 
     @Override

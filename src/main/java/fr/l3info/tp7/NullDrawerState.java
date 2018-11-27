@@ -22,4 +22,13 @@ public class NullDrawerState implements DrawerState {
     public void paint(GraphicsContext graphicsContext) {
 
     }
+    @Override
+    public boolean contains(double x,double y){
+        return false;
+    }
+
+    @Override
+    public void translate(double x,double y){
+
+    }
 }
