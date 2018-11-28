@@ -1,8 +1,7 @@
-package fr.l3info.tp7;
+package GUI;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class RectangleDrawerState1 implements DrawerState {
     double x,y,height, width;

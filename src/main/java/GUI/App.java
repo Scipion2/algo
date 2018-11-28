@@ -1,4 +1,4 @@
-package fr.l3info.tp7;
+package GUI;
 
 import javafx.application.Application;
 import javafx.scene.Group;

@@ -1,8 +1,6 @@
-package fr.l3info.tp7;
+package GUI;
 
-import javafx.event.Event;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.List;

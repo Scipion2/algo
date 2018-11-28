@@ -1,4 +1,4 @@
-package fr.l3info.tp7;
+package GUI;
 
 import static org.junit.Assert.assertTrue;
 
