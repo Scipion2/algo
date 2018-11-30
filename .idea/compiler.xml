@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="algo" />
         <module name="Algo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Algo" target="10" />
+      <module name="algo" target="10" />
     </bytecodeTargetLevel>
   </component>
 </project>

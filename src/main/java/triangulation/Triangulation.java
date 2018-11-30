@@ -2,7 +2,7 @@ package triangulation;
 
 public class Triangulation {
 
-    GeneratePoints pointsMatrix;
+  /*  GeneratePoints pointsMatrix;
 
     public Triangulation(GeneratePoints generatePoints){
         this.pointsMatrix = generatePoints;
@@ -12,7 +12,7 @@ public class Triangulation {
     public static void main(String[] args){
         Triangulation triangulation = new Triangulation(new GeneratePoints(100,0, 500, 0, 500));
     }
-
+  */
 }
 
 

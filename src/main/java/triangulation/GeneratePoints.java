@@ -1,30 +1,28 @@
 package triangulation;
 
+import java.util.ArrayList;
 import java.util.List;
 import utils.QuickSort;
+import utils.*;
 
 public class GeneratePoints
 {
     
-    List<Point> cloud;
-    
-    public GeneratePoints(int pointsNumber, int xMin, int xMax, int yMin, int yMax)
+    List<Point> cloud = new ArrayList<>();
+
+   public GeneratePoints(int pointsNumber, int xMin, int xMax, int yMin, int yMax)
     {
-        
-        for(int i=0;i<Math.min(pointsNumber,(xMax-xMin)*(yMax-yMin));++i)
-        {
+
+        for(int i=0;i<Math.min(pointsNumber,(xMax-xMin)*(yMax-yMin));++i) {
 
             Point newPoint;
-            do
-            {
+            do {
 
-                newPoint=new Point((int)(xMin+Math.random()*(xMax-xMin)),(int)(yMin+Math.random()*(yMax-yMin)));
+                newPoint = new Point((int) (xMin + Math.random() * (xMax - xMin)), (int) (yMin + Math.random() * (yMax - yMin)));
 
-            }while(cloud.contains(newPoint));
-
+            } while (cloud.contains(newPoint));
 
             this.cloud.add(newPoint);
-            
         }
 
         utils.QuickSort.quickSort(cloud,0,cloud.size()-1);
@@ -44,8 +42,7 @@ public class GeneratePoints
         }
 
     }
-    
-    
+
 }
 
 
