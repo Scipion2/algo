@@ -29,12 +29,10 @@ public class GeneratePoints
         
     }
 
-
-
     public void displayList()
     {
 
-        for(int i=0;i<cloud.size()-1;++i)
+        for(int i=0;i<cloud.size();++i)
         {
 
             System.out.println("x="+cloud.get(i).getX()+"   y="+cloud.get(i).getY());
