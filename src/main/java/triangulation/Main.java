@@ -6,8 +6,7 @@ import java.util.List;
 public class Main
 {
     
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         
         /*GeneratePoints test=new GeneratePoints(99,0,100,0,100);
         test.displayList();
@@ -49,6 +48,7 @@ public class Main
         testConv.add(new Point(80, 120));
 
         Convexe test2 = new Convexe(testConv);
+        test2.makeConvexe();
         System.out.println("Convexe result: ");
         for(int i=0; i<test2.convPolygon.size(); i++){
             System.out.println("Point n°" +i +": x= " +test2.convPolygon.get(i).getX() +", y= " +test2.convPolygon.get(i).getY());

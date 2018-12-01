@@ -3,10 +3,11 @@ package triangulation;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Convexe {
 
     public List<Point> cloud;
-    public List<Point> convPolygon; //Polygon représentant la figure convexe de façon orientée
+    public List<Point> convPolygon = new ArrayList<>(); //Polygon représentant la figure convexe de façon orientée
 
     public Convexe(List<Point> cloud){
 
@@ -16,23 +17,44 @@ public class Convexe {
 
     public List<Point> makeConvexe() {
 
-
+        System.out.println("Entering MakeConvexe");
         if (cloud.size() <= 3) { // Cas d'arret: 2 et 3 points, a faire arbitrairement
 
-
+            System.out.println("nbPoint < 3");
             if(cloud.size() == 2){ //Jsp mais je met le plus haut en premier dans l'orientation
+
+                System.out.println("nbpoint = 2");
+
+
                 if(cloud.get(0).getY() >= cloud.get(1).getY()){
+                    System.out.println("first if passed");
                     convPolygon.add(cloud.get(0));
                     convPolygon.add(cloud.get(1));
                 }
                 else{
+
+                    System.out.println("point: x= " +cloud.get(1).getX());
+                    System.out.println("first else passed");
                     convPolygon.add(cloud.get(1));
+                    System.out.println("1 rst added");
                     convPolygon.add(cloud.get(0));
+                    System.out.println("2nd added");
+
                 }
+
+                System.out.println("case 3 done");
+
+                for(int i = 0; i<convPolygon.size(); i++){
+                    System.out.println("Point n°" +i +": x= "+convPolygon.get(i).getX() +", y= "+convPolygon.get(i).getY());
+                }
+
                 return convPolygon;
 
             }
             else { // cloud.size()=3 /
+
+                System.out.println("nbpoint = 3");
+
                 int indexMin = 0, indexMax = 1, middle = 2;
                 if(cloud.get(indexMin).getY() > cloud.get(indexMax).getY()){
                     indexMin = indexMax;
@@ -58,10 +80,14 @@ public class Convexe {
                     convPolygon.add(cloud.get(indexMin));
                 }
 
+                System.out.println("test");
                 return convPolygon;
             }
 
         } else { // Sinon, faire cet algo
+
+            System.out.println("nbpoint > 3");
+
             List<Point> leftCloud = new ArrayList<>();
             List<Point> rightCloud = new ArrayList<>();
 
@@ -74,10 +100,21 @@ public class Convexe {
             }
 
             Convexe leftconv = new Convexe(leftCloud);
+
+            System.out.println("Left conv done");
+
             Convexe rightconv = new Convexe(rightCloud);
 
+            System.out.println("Right conv done");
+
+
             List<Point> leftconvpoly = leftconv.makeConvexe();
+
+            System.out.println("Left makeconv done");
+
             List<Point> rightconvpoly = rightconv.makeConvexe();
+
+
 
             int[] upPointtofuse = searchUpFuse(leftconvpoly, rightconvpoly);
             int[] downPointtofuse = searchDownFuse(leftconvpoly, rightconvpoly);
@@ -111,7 +148,7 @@ public class Convexe {
                 verif=-2; //Arrete plus haute, reset des "non"
                 actualLeftPoint--;
 
-               //Met a jour avec le nouveau point
+                //Met a jour avec le nouveau point
                 PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
                 MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
                 result = PVECTABAC/MULTABAC;
