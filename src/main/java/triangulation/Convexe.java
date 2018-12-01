@@ -95,6 +95,8 @@ public class Convexe {
         int[] pointToFuse = new int[2];
         int verif = -2; // Comptage de "non" (quand l'arrete suivante n'ai pas plus haute), s'il il y en a 2 d'affilé, on a la bonne arrête
         int actualLeftPoint, actualRightPoint;
+        double PVECTABAC, MULTABAC, result;
+
 
         actualLeftPoint = convPolygon.size();
         actualRightPoint = 0;
@@ -102,18 +104,36 @@ public class Convexe {
         while(verif != 0){
 
             actualLeftPoint--;
-            while(actualLeftPoint>0){ //A FAIRE: Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) > 0
+            PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
+            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
+            result = PVECTABAC/MULTABAC;
+            while(result > 0){ //Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) > 0 : Angle: ABC = arccos[(BA.BC)/(BA*BC)] // BA.BC = xBA * xBC + yBA * yBC
                 verif=-2; //Arrete plus haute, reset des "non"
                 actualLeftPoint--;
+
+               //Met a jour avec le nouveau point
+                PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
+                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
+                result = PVECTABAC/MULTABAC;
+
             }
             actualLeftPoint++;
             verif++; //Changement de côté car un "non"
 
 
+
             actualRightPoint++;
-            while(actualRightPoint<0){ //A FAIRE: Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) < 0
+            PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
+            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
+            result = PVECTABAC/MULTABAC;
+            while(result < 0){ //Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) < 0
                 verif=-2; //Arrete plus haute, reset des "non"
                 actualRightPoint++;
+
+                //Met a jour avec le nouveau point
+                PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
+                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
+                result = PVECTABAC/MULTABAC;
             }
             actualRightPoint--;
             verif++;
@@ -131,25 +151,45 @@ public class Convexe {
         int[] pointToFuse = new int[2];
         int verif = -2; // Comptage de "non" (quand l'arrete suivante n'ai pas plus haute), s'il il y en a 2 d'affilé, on a la bonne arrête
         int actualLeftPoint, actualRightPoint;
+        double PVECTABAC, MULTABAC, result;
+
 
         actualLeftPoint = convPolygon.size();
         actualRightPoint = 0;
 
+
         while(verif != 0){
 
             actualLeftPoint++;
-            while(actualLeftPoint>0){ //A FAIRE: Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) < 0
+            PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
+            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
+            result = PVECTABAC/MULTABAC;
+            while(result<0){ //A FAIRE: Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) < 0
                 verif=-2; //Arrete plus haute, reset des "non"
                 actualLeftPoint++;
+
+                //Met a jour avec le nouveau point
+                PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
+                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
+                result = PVECTABAC/MULTABAC;
             }
             actualLeftPoint--;
             verif++; //Changement de côté car un "non"
 
 
             actualRightPoint--;
-            while(actualRightPoint<0){ //A FAIRE: Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) > 0
+            PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
+            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
+            result = PVECTABAC/MULTABAC;
+            while(result>0){ //A FAIRE: Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) > 0
                 verif=-2; //Arrete plus haute, reset des "non"
                 actualRightPoint--;
+
+
+                //Met a jour avec le nouveau point
+                PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
+                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
+                result = PVECTABAC/MULTABAC;
             }
             actualRightPoint++;
             verif++;
