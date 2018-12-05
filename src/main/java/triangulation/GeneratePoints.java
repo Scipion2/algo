@@ -1,9 +1,9 @@
 package triangulation;
 
+import javafx.scene.canvas.GraphicsContext;
+
 import java.util.ArrayList;
 import java.util.List;
-import utils.QuickSort;
-import utils.*;
 
 public class GeneratePoints
 {
@@ -36,6 +36,18 @@ public class GeneratePoints
         {
 
             System.out.println("x="+cloud.get(i).getX()+"   y="+cloud.get(i).getY());
+
+        }
+
+    }
+
+    public void drawList(GraphicsContext graphicContext)
+    {
+
+        for(int i=0;i<cloud.size();++i)
+        {
+
+            cloud.get(i).drawPoint(graphicContext);
 
         }
 
