@@ -1,5 +1,7 @@
 package triangulation;
 
+import utils.Maths;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,29 +11,36 @@ public class Convexe {
     public List<Point> cloud;
     public List<Point> convPolygon = new ArrayList<>(); //Polygon représentant la figure convexe de façon orientée
 
-    public Convexe(List<Point> cloud){
+    public Convexe(List<Point> cloud)
+    {
 
         this.cloud = cloud;
+       this.makeConvexe();
 
     }
 
-    public List<Point> makeConvexe() {
+    public void makeConvexe()
+    {
 
         System.out.println("Entering MakeConvexe");
-        if (cloud.size() <= 3) { // Cas d'arret: 2 et 3 points, a faire arbitrairement
+        if (cloud.size() <= 3)
+        { // Cas d'arret: 2 et 3 points, a faire arbitrairement
 
-            System.out.println("nbPoint < 3");
-            if(cloud.size() == 2){ //Jsp mais je met le plus haut en premier dans l'orientation
+            System.out.println("nbPoint <= 3");
+            if(cloud.size() == 2)
+            { //Jsp mais je met le plus haut en premier dans l'orientation
 
                 System.out.println("nbpoint = 2");
 
 
-                if(cloud.get(0).getY() >= cloud.get(1).getY()){
+                if(cloud.get(0).getY() >= cloud.get(1).getY())
+                {
                     System.out.println("first if passed");
                     convPolygon.add(cloud.get(0));
                     convPolygon.add(cloud.get(1));
                 }
-                else{
+                else
+                    {
 
                     System.out.println("point: x= " +cloud.get(1).getX());
                     System.out.println("first else passed");
@@ -44,58 +53,68 @@ public class Convexe {
 
                 System.out.println("case 3 done");
 
-                for(int i = 0; i<convPolygon.size(); i++){
+                for(int i = 0; i<convPolygon.size(); i++)
+                {
                     System.out.println("Point n°" +i +": x= "+convPolygon.get(i).getX() +", y= "+convPolygon.get(i).getY());
                 }
 
-                return convPolygon;
+                return ;
 
             }
-            else { // cloud.size()=3 /
+            else
+                { // cloud.size()=3 /
 
                 System.out.println("nbpoint = 3");
 
                 int indexMin = 0, indexMax = 1, middle = 2;
-                if(cloud.get(indexMin).getY() > cloud.get(indexMax).getY()){
+                if(cloud.get(indexMin).getY() > cloud.get(indexMax).getY())
+                {
                     indexMin = indexMax;
                     indexMax = 0;
                 }
-                if(cloud.get(indexMin).getY() > cloud.get(2).getY()){
+                if(cloud.get(indexMin).getY() > cloud.get(2).getY())
+                {
                     middle = indexMin;
                     indexMin = 2;
                 }
-                else if(cloud.get(indexMax).getY() < cloud.get(2).getY()){
+                else if(cloud.get(indexMax).getY() < cloud.get(2).getY())
+                {
                     middle = indexMax;
                     indexMax = 2;
                 }
 
-                if(cloud.get(indexMax).getY()-cloud.get(middle).getY() < cloud.get(middle).getY()-cloud.get(indexMin).getY()){
+                if(cloud.get(indexMax).getY()-cloud.get(middle).getY() < cloud.get(middle).getY()-cloud.get(indexMin).getY())
+                {
                     convPolygon.add(cloud.get(middle));
                     convPolygon.add(cloud.get(indexMax));
                     convPolygon.add(cloud.get(indexMin));
                 }
-                else{
+                else
+                    {
                     convPolygon.add(cloud.get(indexMax));
                     convPolygon.add(cloud.get(middle));
                     convPolygon.add(cloud.get(indexMin));
                 }
 
                 System.out.println("test");
-                return convPolygon;
+                return ;
             }
 
-        } else { // Sinon, faire cet algo
+        } else
+            { // Sinon, faire cet algo
 
             System.out.println("nbpoint > 3");
 
             List<Point> leftCloud = new ArrayList<>();
             List<Point> rightCloud = new ArrayList<>();
 
-            for (int i = 0; i < (cloud.size()) / 2; i++) {
+            for (int i = 0; i < (cloud.size()) / 2; i++)
+            {
                 leftCloud.add(cloud.get(i));
             }
 
-            for (int i = (cloud.size()) / 2; i < cloud.size(); i++) {
+            for (int i = (cloud.size()) / 2; i < cloud.size(); i++)
+            {
                 rightCloud.add(cloud.get(i));
             }
 
@@ -108,20 +127,16 @@ public class Convexe {
             System.out.println("Right conv done");
 
 
-            List<Point> leftconvpoly = leftconv.makeConvexe();
 
-            System.out.println("Left makeconv done");
+            int[] upPointtofuse = searchUpFuse(leftconv.convPolygon, rightconv.convPolygon);
+            System.out.println("up fused");
+            int[] downPointtofuse = searchDownFuse(leftconv.convPolygon, rightconv.convPolygon);
 
-            List<Point> rightconvpoly = rightconv.makeConvexe();
+            System.out.println("up and down fused");
 
+            convPolygon = Fuse(upPointtofuse, downPointtofuse, leftconv.convPolygon, rightconv.convPolygon);
 
-
-            int[] upPointtofuse = searchUpFuse(leftconvpoly, rightconvpoly);
-            int[] downPointtofuse = searchDownFuse(leftconvpoly, rightconvpoly);
-
-            convPolygon = Fuse(upPointtofuse, downPointtofuse, leftconvpoly, rightconvpoly);
-
-            return convPolygon;
+            return ;
         }
 
     }
@@ -131,51 +146,54 @@ public class Convexe {
 
         int[] pointToFuse = new int[2];
         int verif = -2; // Comptage de "non" (quand l'arrete suivante n'ai pas plus haute), s'il il y en a 2 d'affilé, on a la bonne arrête
-        int actualLeftPoint, actualRightPoint;
-        double PVECTABAC, MULTABAC, result;
+        int actualLeftPoint, actualRightPoint, nextLeftPoint, nextRightPoint;
 
 
-        actualLeftPoint = convPolygon.size();
+        actualLeftPoint = convPolygon.size()-1;
         actualRightPoint = 0;
 
+        System.out.println("up init");
+
         while(verif != 0){
+            System.out.println("while verif");
 
-            actualLeftPoint--;
-            PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
-            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
-            result = PVECTABAC/MULTABAC;
-            while(result > 0){ //Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) > 0 : Angle: ABC = arccos[(BA.BC)/(BA*BC)] // BA.BC = xBA * xBC + yBA * yBC
+
+            nextLeftPoint = nextPoint(actualLeftPoint, convPolygon.size(), false, true);
+
+            System.out.println("Je suis ici");
+
+            while(Maths.isAnglePositive(leftconv.get(actualLeftPoint),rightconv.get(actualRightPoint),leftconv.get(nextLeftPoint)))
+            { //Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) > 0 : Angle: ABC = arccos[(BA.BC)/(BA*BC)] // BA.BC = xBA * xBC + yBA * yBC
+                System.out.println("while right central");
+
                 verif=-2; //Arrete plus haute, reset des "non"
-                actualLeftPoint--;
 
-                //Met a jour avec le nouveau point
-                PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
-                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
-                result = PVECTABAC/MULTABAC;
+                actualLeftPoint = nextLeftPoint;
+                nextLeftPoint = nextPoint(nextLeftPoint, convPolygon.size(), false, true);
 
             }
-            actualLeftPoint++;
             verif++; //Changement de côté car un "non"
 
 
 
-            actualRightPoint++;
-            PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
-            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
-            result = PVECTABAC/MULTABAC;
-            while(result < 0){ //Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) < 0
-                verif=-2; //Arrete plus haute, reset des "non"
-                actualRightPoint++;
+            nextRightPoint = nextPoint(actualRightPoint, convPolygon.size(), true, true);
 
-                //Met a jour avec le nouveau point
-                PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
-                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
-                result = PVECTABAC/MULTABAC;
+            while(!Maths.isAnglePositive(rightconv.get(actualRightPoint),leftconv.get(actualLeftPoint),rightconv.get(nextRightPoint)))
+            { //Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) < 0
+                System.out.println("while left central");
+
+                verif=-2; //Arrete plus haute, reset des "non"
+
+                actualRightPoint = nextRightPoint;
+                nextRightPoint = nextPoint(nextRightPoint, convPolygon.size(), true, true);
+
+
             }
-            actualRightPoint--;
             verif++;
 
         }
+
+        System.out.println("up done");
 
         pointToFuse[0] = actualLeftPoint;
         pointToFuse[1] = actualRightPoint;
@@ -183,52 +201,46 @@ public class Convexe {
         return pointToFuse;
     }
 
-    public int[] searchDownFuse(List<Point> leftconv, List<Point> rightconv){
+    public int[] searchDownFuse(List<Point> leftconv, List<Point> rightconv)
+    {
 
         int[] pointToFuse = new int[2];
         int verif = -2; // Comptage de "non" (quand l'arrete suivante n'ai pas plus haute), s'il il y en a 2 d'affilé, on a la bonne arrête
-        int actualLeftPoint, actualRightPoint;
-        double PVECTABAC, MULTABAC, result;
+        int actualLeftPoint, actualRightPoint, nextLeftPoint, nextRightPoint;
 
 
-        actualLeftPoint = convPolygon.size();
+        actualLeftPoint = convPolygon.size()-1;
         actualRightPoint = 0;
 
 
         while(verif != 0){
 
-            actualLeftPoint++;
-            PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
-            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
-            result = PVECTABAC/MULTABAC;
-            while(result<0){ //A FAIRE: Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) < 0
-                verif=-2; //Arrete plus haute, reset des "non"
-                actualLeftPoint++;
 
-                //Met a jour avec le nouveau point
-                PVECTABAC = leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX() * leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX() + leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY() * leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY();
-                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualLeftPoint++).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint++).getY()-rightconv.get(actualRightPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualLeftPoint).getX()-rightconv.get(actualRightPoint).getX(), 2)+Math.pow(leftconv.get(actualLeftPoint).getY()-rightconv.get(actualRightPoint).getY(), 2)));
-                result = PVECTABAC/MULTABAC;
+            nextLeftPoint = nextPoint(actualLeftPoint, convPolygon.size(), false, false);
+
+            while(!Maths.isAnglePositive(leftconv.get(actualLeftPoint),rightconv.get(actualRightPoint),leftconv.get(nextLeftPoint)))
+            { //Verif si: l'angle (actualLeftPoint++,actualRightPoint, AcutalLeftpoint) < 0
+                verif=-2; //Arrete plus haute, reset des "non"
+
+                actualLeftPoint = nextLeftPoint;
+                nextLeftPoint = nextPoint(nextLeftPoint, convPolygon.size(), false, false);
+
             }
-            actualLeftPoint--;
             verif++; //Changement de côté car un "non"
 
 
-            actualRightPoint--;
-            PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
-            MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
-            result = PVECTABAC/MULTABAC;
-            while(result>0){ //A FAIRE: Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) > 0
+
+            nextRightPoint = nextPoint(actualRightPoint, convPolygon.size(), true, false);
+
+            while(Maths.isAnglePositive(rightconv.get(actualRightPoint),leftconv.get(actualLeftPoint),rightconv.get(nextRightPoint)))
+            { //Verif si: l'angle (actualRightPoint--,actualeftPoint, AcutalRightpoint) > 0
+
                 verif=-2; //Arrete plus haute, reset des "non"
-                actualRightPoint--;
 
+                actualRightPoint = nextRightPoint;
+                nextRightPoint = nextPoint(nextRightPoint, convPolygon.size(), true, false);
 
-                //Met a jour avec le nouveau point
-                PVECTABAC = leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX() * leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX() + leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY() * leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY();
-                MULTABAC = Math.sqrt(Math.pow(leftconv.get(actualRightPoint--).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint--).getY()-rightconv.get(actualLeftPoint).getY(), 2) * Math.sqrt(Math.pow(leftconv.get(actualRightPoint).getX()-rightconv.get(actualLeftPoint).getX(), 2)+Math.pow(leftconv.get(actualRightPoint).getY()-rightconv.get(actualLeftPoint).getY(), 2)));
-                result = PVECTABAC/MULTABAC;
             }
-            actualRightPoint++;
             verif++;
 
         }
@@ -256,6 +268,51 @@ public class Convexe {
         return newpoly;
 
     }
+
+    public int nextPoint(int actualPoint, int size, boolean rightPart, boolean Upfuse)
+    {
+
+        if (!rightPart) {
+            if (Upfuse) {
+                if (actualPoint > 0)
+                    actualPoint--;
+                else
+                    actualPoint = size-1;
+            }
+
+            else
+            {
+                if(actualPoint<size-1)
+                    actualPoint++;
+                else
+                    actualPoint=0;
+            }
+
+        }
+
+        else
+        {
+            if (Upfuse)
+            {
+                if (actualPoint < size-1)
+                    actualPoint++;
+                else
+                    actualPoint = 0;
+            }
+
+            else
+            {
+                if(actualPoint>0)
+                    actualPoint--;
+                else
+                    actualPoint=size-1;
+            }
+        }
+
+        return actualPoint;
+    }
+
+
 
 
 
