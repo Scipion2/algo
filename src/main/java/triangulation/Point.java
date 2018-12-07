@@ -1,7 +1,6 @@
 package triangulation;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import java.awt.Graphics;
 
 public class Point {
     int pos_x;
@@ -27,11 +26,10 @@ public class Point {
 
     }
 
-    public void drawPoint(GraphicsContext graphicsContext)
+    public void drawPoint(Graphics graphics)
     {
 
-        graphicsContext.setFill(new Color(0,0,1,0.5));
-        graphicsContext.fillOval(this.pos_x,this.pos_y,10,10);
+        graphics.fillOval(this.pos_x*2,this.pos_y+2,10,10);
 
     }
 

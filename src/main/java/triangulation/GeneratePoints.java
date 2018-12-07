@@ -1,7 +1,6 @@
 package triangulation;
 
-import javafx.scene.canvas.GraphicsContext;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,13 +40,13 @@ public class GeneratePoints
 
     }
 
-    public void drawList(GraphicsContext graphicContext)
+    public void drawList(Graphics graphics)
     {
 
         for(int i=0;i<cloud.size();++i)
         {
 
-            cloud.get(i).drawPoint(graphicContext);
+            cloud.get(i).drawPoint(graphics);
 
         }
 

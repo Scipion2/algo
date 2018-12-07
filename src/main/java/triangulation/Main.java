@@ -1,19 +1,27 @@
 package triangulation;
 
+import GUI.Window;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main
 {
     
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
+
+
+        Window win= new Window();
         
         /*GeneratePoints test=new GeneratePoints(99,0,100,0,100);
         test.displayList();
-        Convexe test1 = new Convexe(test.cloud);
-        List<Point> convexeDone = test1.makeConvexe();*/
 
-        List<Point> testConv = new ArrayList<>();
+       // Convexe test1 = new Convexe(test.cloud);
+       // List<Point> convexeDone = test1.makeConvexe();*/
+
+
+       /* List<Point> testConv = new ArrayList<>();
         testConv.add(new Point(70, 10));
         testConv.add(new Point(100, 20));
         testConv.add(new Point(40, 30));
@@ -52,7 +60,7 @@ public class Main
         System.out.println("Convexe result: ");
         for(int i=0; i<test2.convPolygon.size(); i++){
             System.out.println("Point n°" +i +": x= " +test2.convPolygon.get(i).getX() +", y= " +test2.convPolygon.get(i).getY());
-        }
+        }*/
 
 
 
