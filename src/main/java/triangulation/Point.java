@@ -26,10 +26,10 @@ public class Point {
 
     }
 
-    public void drawPoint(Graphics graphics)
+    public void drawPoint(Graphics graphics,int space)
     {
 
-        graphics.fillOval(this.pos_x*2,this.pos_y+2,10,10);
+        graphics.fillOval(this.pos_x*space,this.pos_y*space,10,10);
 
     }
 

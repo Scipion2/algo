@@ -40,13 +40,13 @@ public class GeneratePoints
 
     }
 
-    public void drawList(Graphics graphics)
+    public void drawList(Graphics graphics,int space)
     {
 
         for(int i=0;i<cloud.size();++i)
         {
 
-            cloud.get(i).drawPoint(graphics);
+           cloud.get(i).drawPoint(graphics,space);
 
         }
 

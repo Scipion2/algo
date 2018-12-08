@@ -133,7 +133,8 @@ public class Window extends JFrame
                     if(null==(choices[4]=max_y.getText()))
                         return;
 
-                    body.go(getGraphics(),choices);
+                    body.go(choices);
+                    body.repaint();
 
                 }
 
