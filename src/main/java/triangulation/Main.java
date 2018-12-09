@@ -1,6 +1,7 @@
 package triangulation;
 
 import GUI.Window;
+import utils.QuickSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +13,29 @@ public class Main
     {
 
 
-        Window win= new Window();
-        
-        /*GeneratePoints test=new GeneratePoints(99,0,100,0,100);
+         Window win= new Window();
+
+
+
+
+        //Test aléatoire
+        /*GeneratePoints test=new GeneratePoints(20000,0,1000,0,1000);
         test.displayList();
 
-       // Convexe test1 = new Convexe(test.cloud);
-       // List<Point> convexeDone = test1.makeConvexe();*/
+
+        Convexe test1 = new Convexe(test.cloud);
 
 
-       /* List<Point> testConv = new ArrayList<>();
+        test1.makeConvexe();
+        for(int i=0; i<test1.convPolygon.size(); i++){
+            System.out.println("Point n°" +i +": x= " +test1.convPolygon.get(i).getX() +", y= " +test1.convPolygon.get(i).getY());
+        }*/
+
+
+
+
+        // Test cas particulier
+        /*List<Point> testConv = new ArrayList<>();
         testConv.add(new Point(70, 10));
         testConv.add(new Point(100, 20));
         testConv.add(new Point(40, 30));
@@ -54,19 +68,18 @@ public class Main
         testConv.add(new Point(50, 110));
         testConv.add(new Point(90, 110));
         testConv.add(new Point(80, 120));
+        QuickSort.quickSort(testConv, 0, testConv.size());
+
+        for(int i=0; i<testConv.size(); i++){
+            System.out.println("Point n°" +i +": x= " +testConv.get(i).getX() +", y= " +testConv.get(i).getY());
+        }
 
         Convexe test2 = new Convexe(testConv);
-        test2.makeConvexe();
+
         System.out.println("Convexe result: ");
         for(int i=0; i<test2.convPolygon.size(); i++){
             System.out.println("Point n°" +i +": x= " +test2.convPolygon.get(i).getX() +", y= " +test2.convPolygon.get(i).getY());
         }*/
-
-
-
-
-
-
 
     }
     

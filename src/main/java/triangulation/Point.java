@@ -31,7 +31,6 @@ public class Point {
     public void drawPoint(Graphics graphics)
     {
 
-
         graphics.fillOval(this.pos_x,this.pos_y,10,10);
 
     }

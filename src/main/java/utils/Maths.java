@@ -47,16 +47,16 @@ public class Maths
     }
 
 
-    public static boolean isAnglePositive(Point A,Point B,Point C)
+    public static int isAnglePositive(Point A,Point B,Point C)
     {
-
         Vector BA=new Vector(B,A);
         Vector BC=new Vector(B,C);
-
-        if(prodVect(BA,BC)>0)
-            return true;
-
-        return false;
+        double prodVect = prodVect(BA,BC);
+        if(prodVect>0)
+            return 1;
+        else if(prodVect == 0)
+            return -1;
+        return 0;
 
     }
 

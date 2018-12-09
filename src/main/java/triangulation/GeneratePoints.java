@@ -51,10 +51,9 @@ public class GeneratePoints
 
 
            Point withVector=cloud.get(i).applyVector(space);
-                  withVector.drawPoint(graphics);
+                 withVector.drawPoint(graphics);
 
         }
-
     }
 
 }
