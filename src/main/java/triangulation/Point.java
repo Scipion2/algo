@@ -1,5 +1,7 @@
 package triangulation;
 
+import utils.Maths;
+
 import java.awt.Graphics;
 
 public class Point {
@@ -26,10 +28,18 @@ public class Point {
 
     }
 
-    public void drawPoint(Graphics graphics,int space)
+    public void drawPoint(Graphics graphics)
     {
 
-        graphics.fillOval(this.pos_x*space,this.pos_y*space,10,10);
+
+        graphics.fillOval(this.pos_x,this.pos_y,10,10);
+
+    }
+
+    public Point applyVector(Maths.Vector space)
+    {
+
+        return new Point(this.getX()+space.getX(),this.getY()+space.getY());
 
     }
 

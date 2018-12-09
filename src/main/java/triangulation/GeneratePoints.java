@@ -1,8 +1,11 @@
 package triangulation;
 
+import utils.Maths;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class GeneratePoints
 {
@@ -40,13 +43,15 @@ public class GeneratePoints
 
     }
 
-    public void drawList(Graphics graphics,int space)
+    public void drawList(Graphics graphics, Maths.Vector space)
     {
 
         for(int i=0;i<cloud.size();++i)
         {
 
-           cloud.get(i).drawPoint(graphics,space);
+
+           Point withVector=cloud.get(i).applyVector(space);
+                  withVector.drawPoint(graphics);
 
         }
 

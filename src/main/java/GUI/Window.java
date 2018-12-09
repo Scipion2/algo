@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.NumberFormat;
 
 public class Window extends JFrame
@@ -43,6 +45,18 @@ public class Window extends JFrame
         this.setContentPane(container);
         this.setVisible(true);
 
+        this.addComponentListener(new ComponentAdapter()
+        {
+
+            public void componentResized(ComponentEvent e)
+            {
+
+                winHeight=getHeight();
+                winWidth=getWidth();
+
+            }
+        });
+
     }
 
     /*DAUGHTER CLASSES*/
@@ -78,34 +92,44 @@ public class Window extends JFrame
                 options.setPreferredSize(new Dimension(optionsWidth,optionsHeight));
 
                 JPanel choice=new JPanel();
-                choice.setLayout(new GridLayout(numberChoices,1));
+                choice.setLayout(new GridLayout(numberChoices*2,1));
 
                 int choices_width=(optionsWidth*90)/100;
                 int choices_height=(optionsHeight*3)/100;
 
                 number_points.setPreferredSize(new Dimension(choices_width,choices_height));
-                number_points.setText("Number of Points");
+                number_points.setText("10");
+                JLabel numberP=new JLabel("Number of Points");
 
                 min_x.setPreferredSize(new Dimension(choices_width,choices_height));
-                min_x.setText("Abscisse minimale");
+                min_x.setText("1");
+                JLabel minX=new JLabel("Abscisse minimale");
 
                 max_x.setPreferredSize(new Dimension(choices_width,choices_height));
-                max_x.setText("Abscisse maximale");
+                max_x.setText(String.valueOf(optionsWidth));
+                JLabel maxX=new JLabel("Abscisse maximale");
 
                 min_y.setPreferredSize(new Dimension(choices_width,choices_height));
-                min_y.setText("Ordonnee minimale");
+                min_y.setText("1");
+                JLabel minY=new JLabel("Ordonnee minimale");
 
                 max_y.setPreferredSize(new Dimension(choices_width,choices_height));
-                max_y.setText("Ordonnee maximale");
+                max_y.setText(String.valueOf(optionsHeight));
+                JLabel maxY=new JLabel("Ordonnee maximale");
 
                 Button accept=new Button("accept");
 
                 container.add(options, BorderLayout.WEST);
                     options.add(choice,BorderLayout.CENTER);
+                        choice.add(numberP);
                         choice.add(number_points);
+                        choice.add(minX);
                         choice.add(min_x);
+                        choice.add(maxX);
                         choice.add(max_x);
+                        choice.add(minY);
                         choice.add(min_y);
+                        choice.add(maxY);
                         choice.add(max_y);
                     options.add(accept,BorderLayout.SOUTH);
 
@@ -121,6 +145,7 @@ public class Window extends JFrame
                 public void actionPerformed(ActionEvent src)
                 {
 
+
                     String[] choices={null,null,null,null,null};
                     if(null==(choices[0]=number_points.getText()))
                         return;
@@ -134,7 +159,6 @@ public class Window extends JFrame
                         return;
 
                     body.go(choices);
-                    body.repaint();
 
                 }
 
@@ -196,3 +220,4 @@ public class Window extends JFrame
     }
 
 }
+

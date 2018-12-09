@@ -1,6 +1,8 @@
 package GUI;
 
 import triangulation.GeneratePoints;
+import triangulation.Point;
+import utils.Maths;
 
 import java.awt.*;
 import javax.swing.JPanel;
@@ -18,6 +20,7 @@ public class Panel extends JPanel
 
        this.values=values;
        cloud=true;
+       this.repaint();
 
     }
 
@@ -38,11 +41,10 @@ public class Panel extends JPanel
             }
 
             GeneratePoints myCloud=new GeneratePoints(data[0],data[1],data[2],data[3],data[4]);
-            int space=1;
+            Maths.Vector space=new Maths.Vector(new Point(data[2],data[4]),new Point(this.getWidth(),this.getHeight()));
 
             myCloud.drawList(getGraphics(),space);
-
-            cloud=false;
+            myCloud.displayList();
 
         }
 

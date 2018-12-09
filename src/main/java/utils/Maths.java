@@ -37,6 +37,13 @@ public class Maths
 
         }
 
+        public int getNorme()
+        {
+
+            return (int) Math.sqrt(this.getX()*this.getX()+this.getY()*this.getY());
+
+        }
+
     }
 
 
