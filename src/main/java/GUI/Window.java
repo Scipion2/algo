@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.text.NumberFormat;
+import triangulation.Point;
 
 public class Window extends JFrame
 {
@@ -73,94 +74,22 @@ public class Window extends JFrame
 
         class OptionListener implements ActionListener
         {
-
-            int numberChoices=5;
-            JFormattedTextField number_points=new JFormattedTextField(NumberFormat.getIntegerInstance());
-            JFormattedTextField min_x=new JFormattedTextField(NumberFormat.getIntegerInstance());
-            JFormattedTextField max_x=new JFormattedTextField(NumberFormat.getIntegerInstance());
-            JFormattedTextField min_y=new JFormattedTextField(NumberFormat.getIntegerInstance());
-            JFormattedTextField max_y=new JFormattedTextField(NumberFormat.getIntegerInstance());
-
-
-            public void actionPerformed(ActionEvent src)
+            @Override
+            public void actionPerformed(ActionEvent e)
             {
 
-                int optionsWidth=(winWidth*10)/100;
-                int optionsHeight=(winHeight*90)/100;
-                JPanel options=new JPanel();
-                options.setBorder(BorderFactory.createLineBorder(Color.black));
-                options.setPreferredSize(new Dimension(optionsWidth,optionsHeight));
+                body.repaint();
 
-                JPanel choice=new JPanel();
-                choice.setLayout(new GridLayout(numberChoices*2,1));
+                ZDialog zd = new ZDialog(null, "Parametrage", true);
 
-                int choices_width=(optionsWidth*90)/100;
-                int choices_height=(optionsHeight*3)/100;
+                ZDialogInfo zInfo = zd.showZDialog();
 
-                number_points.setPreferredSize(new Dimension(choices_width,choices_height));
-                number_points.setText("10");
-                JLabel numberP=new JLabel("Number of Points");
+                JOptionPane jop = new JOptionPane();
 
-                min_x.setPreferredSize(new Dimension(choices_width,choices_height));
-                min_x.setText("1");
-                JLabel minX=new JLabel("Abscisse minimale");
+                jop.showMessageDialog(null, zInfo.toString(), "Parametres", JOptionPane.INFORMATION_MESSAGE);
 
-                max_x.setPreferredSize(new Dimension(choices_width,choices_height));
-                max_x.setText(String.valueOf(optionsWidth));
-                JLabel maxX=new JLabel("Abscisse maximale");
+                body.go(zInfo.get());
 
-                min_y.setPreferredSize(new Dimension(choices_width,choices_height));
-                min_y.setText("1");
-                JLabel minY=new JLabel("Ordonnee minimale");
-
-                max_y.setPreferredSize(new Dimension(choices_width,choices_height));
-                max_y.setText(String.valueOf(optionsHeight));
-                JLabel maxY=new JLabel("Ordonnee maximale");
-
-                Button accept=new Button("accept");
-
-                container.add(options, BorderLayout.WEST);
-                    options.add(choice,BorderLayout.CENTER);
-                        choice.add(numberP);
-                        choice.add(number_points);
-                        choice.add(minX);
-                        choice.add(min_x);
-                        choice.add(maxX);
-                        choice.add(max_x);
-                        choice.add(minY);
-                        choice.add(min_y);
-                        choice.add(maxY);
-                        choice.add(max_y);
-                    options.add(accept,BorderLayout.SOUTH);
-
-                 accept.addActionListener(new AcceptListener());
-
-                 refresh();
-
-            }
-
-            class AcceptListener implements ActionListener
-            {
-
-                public void actionPerformed(ActionEvent src)
-                {
-
-
-                    String[] choices={null,null,null,null,null};
-                    if(null==(choices[0]=number_points.getText()))
-                        return;
-                    if(null==(choices[1]=min_x.getText()))
-                        return;
-                    if(null==(choices[2]=max_x.getText()))
-                        return;
-                    if(null==(choices[3]=min_y.getText()))
-                        return;
-                    if(null==(choices[4]=max_y.getText()))
-                        return;
-
-                    body.go(choices);
-
-                }
 
             }
 
