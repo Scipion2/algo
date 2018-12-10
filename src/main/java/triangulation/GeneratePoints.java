@@ -27,7 +27,7 @@ public class GeneratePoints
             this.cloud.add(newPoint);
         }
 
-        utils.QuickSort.quickSort(cloud,0,cloud.size()-1);
+        utils.QuickSort.quickSort(cloud,0,cloud.size());
         
     }
 

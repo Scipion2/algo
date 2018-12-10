@@ -29,7 +29,10 @@ public class Main
         test1.makeConvexe();
         for(int i=0; i<test1.convPolygon.size(); i++){
             System.out.println("Point n°" +i +": x= " +test1.convPolygon.get(i).getX() +", y= " +test1.convPolygon.get(i).getY());
-        }*/
+        }
+        Triangulation triangulation = new Triangulation(test1.cloud, test1.convPolygon);
+        triangulation.makeTriangulation();
+        */
 
 
 
@@ -79,7 +82,11 @@ public class Main
         System.out.println("Convexe result: ");
         for(int i=0; i<test2.convPolygon.size(); i++){
             System.out.println("Point n°" +i +": x= " +test2.convPolygon.get(i).getX() +", y= " +test2.convPolygon.get(i).getY());
-        }*/
+        }
+
+        Triangulation triangulation = new Triangulation(test2.cloud, test2.convPolygon);
+        triangulation.makeTriangulation();
+        */
 
     }
     
