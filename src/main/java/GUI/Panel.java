@@ -1,25 +1,18 @@
 package GUI;
 
-import triangulation.Convexe;
-import triangulation.GeneratePoints;
-import triangulation.Point;
-import triangulation.Triangulation;
-import utils.Maths;
 
-import java.awt.*;
+import triangulation.Triangulation;
 import javax.swing.JPanel;
 
 
 
-public class Panel extends JPanel
+class Panel extends JPanel
 {
 
-    private String[] values;
-
-    public void go(String[] values)
+    void go(String[] values)
     {
 
-        this.values=values;
+        ///String[] values1 = values;
         int[] data=new int[5];
         for(int i=0;i<5;++i)
         {

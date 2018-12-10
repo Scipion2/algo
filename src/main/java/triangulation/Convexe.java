@@ -105,7 +105,7 @@ public class Convexe
             }
         }
         // fabrication de l'enveloppe
-        ArrayList<Point> env = new ArrayList();
+        List<Point> env = new ArrayList();
         for( int i = 0; i<=im1; ++i)            env.add(firstHalf.get(i));
         if(ip2==0){
             for( int i = im2; i<secondHalf.size(); ++i) env.add(secondHalf.get(i));
@@ -122,7 +122,7 @@ public class Convexe
     private static List<Point> get_convex(List<Point> cloud)
     {
         List<Point> env=new ArrayList<>();
-        cloud.sort(comparingInt(o -> o.getX()));
+        cloud.sort(comparingInt(Point::getX));
         partition(cloud, env);
         return env;
     }
@@ -137,7 +137,7 @@ public class Convexe
     }
 
 
-    public void drawConvexe(Graphics graphics,int factorx,int factory)
+    void drawConvexe(Graphics graphics, int factorx, int factory)
     {
 
         for(int i=0;i<convPolygon.size()-1;++i)

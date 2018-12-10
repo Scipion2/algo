@@ -1,10 +1,6 @@
 package triangulation;
 
 import GUI.Window;
-import utils.QuickSort;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main
 {

@@ -7,21 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import triangulation.Convexe;
-import triangulation.GeneratePoints;
-import triangulation.Point;
-
 public class Window extends JFrame
 {
 
     private Panel body = new Panel();
-    private JPanel buttonContainer = new JPanel();
-    private Button edit = new Button("Edit");
-    private Button option = new Button("New");
-    private Button exit=new Button("Exit");
-    private JPanel container = new JPanel();
-    int winWidth=1500;
-    int winHeight=1000;
+    private int winWidth=1500;
+    private int winHeight=1000;
 
     public Window()
     {
@@ -31,13 +22,18 @@ public class Window extends JFrame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
+        JPanel container = new JPanel();
         container.setBackground(Color.white);
         container.setLayout(new BorderLayout());
-            container.add(buttonContainer, BorderLayout.NORTH);
+        JPanel buttonContainer = new JPanel();
+        container.add(buttonContainer, BorderLayout.NORTH);
                 buttonContainer.setBorder(BorderFactory.createLineBorder(Color.black));
-                buttonContainer.add(option);
-                buttonContainer.add(edit);
-                buttonContainer.add(exit);
+        Button option = new Button("New");
+        buttonContainer.add(option);
+        Button edit = new Button("Edit");
+        buttonContainer.add(edit);
+        Button exit = new Button("Exit");
+        buttonContainer.add(exit);
             container.add(body, BorderLayout.CENTER);
 
         edit.addActionListener(new EditListener());
@@ -89,9 +85,9 @@ public class Window extends JFrame
 
                 ZDialogInfo zInfo = zd.showZDialog();
 
-                JOptionPane jop = new JOptionPane();
+                //JOptionPane jop = new JOptionPane();
 
-                jop.showMessageDialog(null, zInfo.toString(), "Parametres", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, zInfo.toString(), "Parametres", JOptionPane.INFORMATION_MESSAGE);
 
                 body.go(zInfo.get());
 
@@ -117,14 +113,7 @@ public class Window extends JFrame
 
     /*FUNCTIONS*/
 
-    public void refresh()
-    {
-
-        this.setVisible(true);
-
-    }
-
-    public void closeWindow(int mode)
+    private void closeWindow(int mode)
     {
 
         if(0==mode)
