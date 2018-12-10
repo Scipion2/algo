@@ -23,6 +23,10 @@ public class Triangulation
         int indBaricentre = 0;
         boolean isPointinside;
 
+        System.out.println("\nPolygon actuel de taille: " +enveloppeConvexe.size());
+        for(int i = 0; i<enveloppeConvexe.size(); i++)
+            System.out.println("Point n" +i +": x= " +enveloppeConvexe.get(i).getX() + ", y= " +enveloppeConvexe.get(i).getY());
+
         if(enveloppeConvexe.size() != 3 && cloud.size() != enveloppeConvexe.size())
             isPointinside = true;
         else
@@ -30,9 +34,11 @@ public class Triangulation
 
         if(isPointinside) {
             indBaricentre = searchBaricentre();
+            System.out.println("Baricentre: x= " +cloud.get(indBaricentre).getX() + ", y= " +cloud.get(indBaricentre).getY());
+
+
 
             for (int i = 1; i<enveloppeConvexe.size();i++){
-
                 List<Point> polygon = new ArrayList<>();
                 polygon.add(cloud.get(indBaricentre));
                 polygon.add(enveloppeConvexe.get(i-1));
