@@ -9,7 +9,9 @@ public class Triangulation
 {
 
     List<Point> cloud;
+    List<Integer> degree=new ArrayList<>();
     List<Point> enveloppeConvexe;
+    List<Point[]> arcs=new ArrayList<Point[]>();
 
     public Triangulation(List <Point> src, List <Point> enveloppeConvexe) {
 
@@ -118,6 +120,19 @@ public class Triangulation
         return indBaricentre;
 
     }
+
+    /*
+
+
+    public void Triangulation()
+    {
+
+
+
+    }
+
+
+     */
 
 }
 

@@ -19,12 +19,12 @@ public class Credit extends JFrame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        setContentPane(new AfficheImage("C:\\impress2.gif"));
-        getContentPane().setLayout(new BorderLayout());
+        //setContentPane(new AfficheImage("C:\\impress2.gif"));
+        //getContentPane().setLayout(new BorderLayout());
 
-       // CreditPan back=new CreditPan();
+        CreditPan back=new CreditPan();
 
-       // setContentPane(back);
+        setContentPane(back);
         this.setVisible(true);
 
     }

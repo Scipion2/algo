@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.text.NumberFormat;
+
+import triangulation.Convexe;
+import triangulation.GeneratePoints;
 import triangulation.Point;
 
 public class Window extends JFrame
@@ -57,6 +59,43 @@ public class Window extends JFrame
 
             }
         });
+
+    }
+
+
+    public Window(Convexe test)
+    {
+
+        this.setTitle("Triangulation");
+        this.setSize(winWidth, winHeight);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+
+        container.setBackground(Color.white);
+        container.setLayout(new BorderLayout());
+        container.add(buttonContainer, BorderLayout.NORTH);
+        buttonContainer.setBorder(BorderFactory.createLineBorder(Color.black));
+        buttonContainer.add(option);
+        buttonContainer.add(edit);
+        buttonContainer.add(exit);
+        container.add(body, BorderLayout.CENTER);
+
+        edit.addActionListener(new EditListener());
+        option.addActionListener(new OptionListener());
+        exit.addActionListener(new ExitListener());
+
+
+        this.setContentPane(container);
+        this.setVisible(true);
+
+
+        GeneratePoints src1=new GeneratePoints(test.cloud);
+
+        src1.drawList(getGraphics(),1,1);
+       // src1.displayList();
+
+        Convexe tamere=new Convexe(test.cloud);
+        tamere.drawConvexe(getGraphics(),1,1);
 
     }
 

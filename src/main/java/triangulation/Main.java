@@ -23,14 +23,14 @@ public class Main
         test.displayList();
 
 
-        Convexe test1 = new Convexe(test.cloud);
+        Convexe test1 = new Convexe(test.clouds);
 
 
         test1.makeConvexe();
         for(int i=0; i<test1.convPolygon.size(); i++){
             System.out.println("Point n°" +i +": x= " +test1.convPolygon.get(i).getX() +", y= " +test1.convPolygon.get(i).getY());
         }
-        Triangulation triangulation = new Triangulation(test1.cloud, test1.convPolygon);
+        Triangulation triangulation = new Triangulation(test1.clouds, test1.convPolygon);
         triangulation.makeTriangulation();
         */
 
@@ -84,9 +84,11 @@ public class Main
             System.out.println("Point n°" +i +": x= " +test2.convPolygon.get(i).getX() +", y= " +test2.convPolygon.get(i).getY());
         }
 
-        Triangulation triangulation = new Triangulation(test2.cloud, test2.convPolygon);
-        triangulation.makeTriangulation();
-        */
+        Window win2=new Window(test2);*/
+
+        /*Triangulation triangulation = new Triangulation(test2.clouds, test2.convPolygon);
+        triangulation.makeTriangulation();*/
+
 
     }
     

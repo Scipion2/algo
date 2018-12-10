@@ -3,6 +3,7 @@ package triangulation;
 import utils.Maths;
 import utils.QuickSort;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class Convexe {
 
     public List<Point> cloud;
     public List<Point> convPolygon = new ArrayList<>(); //Polygon représentant l'enveloppe convexe de façon orientée
+    public List<Point[]> arcs=new ArrayList<Point[]>();
 
     public Convexe(List<Point> cloud) {
 
@@ -20,14 +22,16 @@ public class Convexe {
         else
             this.convPolygon = this.makeConvexe();
 
+
     }
 
 
     public List<Point> makeConvexeparticular() {
 
-        if (cloud.size() <= 3) { // Cas d'arret: 2 et 3 points, a faire arbitrairement
 
-            if (cloud.size() <= 3) {
+            System.out.println("size= "+cloud.size());
+
+            if (cloud.size() < 3) {
 
                 if (cloud.get(0).getY() >= cloud.get(1).getY()) {
                     convPolygon.add(cloud.get(0));
@@ -39,7 +43,7 @@ public class Convexe {
 
             }
 
-        } else { // cloud.size()=3 /
+            else { // clouds.clouds.size()=3 /
 
             int indexMax = 0;
             if(cloud.get(indexMax).getY() < cloud.get(1).getY())
@@ -47,22 +51,35 @@ public class Convexe {
             if(cloud.get(indexMax).getY() < cloud.get(2).getY())
                 indexMax = 2;
 
+            System.out.println("indexMax= " +indexMax);
+
+
             if(indexMax == 0){
+                System.out.println(" 0");
                 convPolygon.add(cloud.get(0));
                 convPolygon.add(cloud.get(2));
                 convPolygon.add(cloud.get(1));
             }
             else if(indexMax == 1){
+                System.out.println(" 0");
+
                 convPolygon.add(cloud.get(1));
                 convPolygon.add(cloud.get(2));
                 convPolygon.add(cloud.get(0));
             }
             else{
+                System.out.println(" 0");
+
                 convPolygon.add(cloud.get(2));
                 convPolygon.add(cloud.get(1));
                 convPolygon.add(cloud.get(0));
             }
         }
+
+        System.out.println("size= " +convPolygon.size());
+        for(int i= 0; i<convPolygon.size(); i++)
+            System.out.println("Point n°" +i +": "+"x= " +convPolygon.get(i).getX() +", y= " +convPolygon.get(i).getY());
+
         return convPolygon;
     }
 
@@ -487,6 +504,23 @@ public class Convexe {
         }
 
         return -1;
+    }
+
+
+    public void drawConvexe(Graphics graphics,int factorx,int factory)
+    {
+
+        for(int i=0;i<convPolygon.size()-1;++i)
+        {
+
+            graphics.drawLine(convPolygon.get(i).getX()*factorx,convPolygon.get(i).getY()*factory
+                    ,convPolygon.get(i+1).getX()*factorx,convPolygon.get(i+1).getY()*factory);
+
+        }
+
+        graphics.drawLine(convPolygon.get(convPolygon.size()-1).getX()*factorx,convPolygon.get(convPolygon.size()-1).getY()*factory
+                ,convPolygon.get(0).getX()*factorx,convPolygon.get(0).getY()*factory);
+
     }
 
 }

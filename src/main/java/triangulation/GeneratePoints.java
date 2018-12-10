@@ -10,7 +10,16 @@ import java.util.Vector;
 public class GeneratePoints
 {
     
-    List<Point> cloud = new ArrayList<>();
+    public List<Point> cloud = new ArrayList<>();
+
+
+    public GeneratePoints(List<Point> src)
+    {
+
+
+        cloud=src;
+
+    }
 
    public GeneratePoints(int pointsNumber, int xMin, int xMax, int yMin, int yMax)
     {
@@ -43,14 +52,14 @@ public class GeneratePoints
 
     }
 
-    public void drawList(Graphics graphics, Maths.Vector space)
+    public void drawList(Graphics graphics, int factorx,int factory)
     {
 
         for(int i=0;i<cloud.size();++i)
         {
 
 
-           Point withVector=cloud.get(i).applyVector(space);
+           Point withVector=new Point(cloud.get(i).getX()*factorx,cloud.get(i).getY()*factory);
                  withVector.drawPoint(graphics);
 
         }
