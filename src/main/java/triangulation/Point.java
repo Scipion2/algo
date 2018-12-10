@@ -7,11 +7,13 @@ import java.awt.Graphics;
 public class Point {
     int pos_x;
     int pos_y;
+    int degree;
     
     public Point(int x, int y)
     {
         this.pos_x = x;
         this.pos_y = y;
+        this.degree=0;
     }
 
     public int getX()

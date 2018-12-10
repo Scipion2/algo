@@ -2,137 +2,122 @@ package triangulation;
 
 import utils.Maths.Vector;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Triangulation
 {
 
+    List<Convexe> conv;
+    int convsNumber;
     List<Point> cloud;
-    List<Integer> degree=new ArrayList<>();
-    List<Point> enveloppeConvexe;
     List<Point[]> arcs=new ArrayList<Point[]>();
 
-    public Triangulation(List <Point> src, List <Point> enveloppeConvexe) {
 
-        this.cloud = src;
-        this.enveloppeConvexe = enveloppeConvexe;
-
-    }
-
-    public void makeTriangulation(){
-
-        int indBaricentre = 0;
-        boolean isPointinside;
-
-        System.out.println("\nPolygon actuel de taille: " +enveloppeConvexe.size());
-        for(int i = 0; i<enveloppeConvexe.size(); i++)
-            System.out.println("Point n" +i +": x= " +enveloppeConvexe.get(i).getX() + ", y= " +enveloppeConvexe.get(i).getY());
-
-        if(enveloppeConvexe.size() != 3 && cloud.size() != enveloppeConvexe.size())
-            isPointinside = true;
-        else
-            isPointinside = isPointInsideTriangle();
-
-        if(isPointinside) {
-            indBaricentre = searchBaricentre();
-            System.out.println("Baricentre: x= " +cloud.get(indBaricentre).getX() + ", y= " +cloud.get(indBaricentre).getY());
-
-
-
-            for (int i = 1; i<enveloppeConvexe.size();i++){
-                List<Point> polygon = new ArrayList<>();
-                polygon.add(cloud.get(indBaricentre));
-                polygon.add(enveloppeConvexe.get(i-1));
-                polygon.add(enveloppeConvexe.get(i));
-
-                Triangulation insidePolygon = new Triangulation(cloud, polygon);
-                insidePolygon.makeTriangulation();
-            }
-
-        }
-
-    }
-
-    public boolean isPointInsideTriangle()
+    public Triangulation(int numberPoint, int xmin, int xmax, int ymin, int ymax)
     {
 
-        for(int i=0; i<cloud.size(); i++)
-            if(isLeft(cloud.get(i), enveloppeConvexe.get(0), enveloppeConvexe.get(1)) && isLeft(cloud.get(i), enveloppeConvexe.get(1), enveloppeConvexe.get(2)) && isLeft(cloud.get(i), enveloppeConvexe.get(2), enveloppeConvexe.get(0)))
-                return true;
+        convsNumber=0;
+        this.cloud=GeneratePoints.generatePoints(numberPoint,xmin,xmax,ymin,ymax);
 
-        return false;
+        this.conv(cloud);
+        this.triang();
+
+
     }
 
-    public boolean isThisPointInsideTriangle(Point point)
+    private void conv(List<Point> actualCloud)
     {
 
-        if(isLeft(point, enveloppeConvexe.get(0), enveloppeConvexe.get(1)) && isLeft(point, enveloppeConvexe.get(1), enveloppeConvexe.get(2)) && isLeft(point, enveloppeConvexe.get(2), enveloppeConvexe.get(0)))
-            return true;
+        conv.add(convsNumber++,new Convexe(actualCloud));
+        List<Point> newCloud=GeneratePoints.less(conv.get(convsNumber-1).convPolygon,actualCloud);
 
-        return false;
-    }
+        if(0!=newCloud.size())
+            conv(newCloud);
 
-    public boolean isLeft(Point point, Point A, Point B){
-
-        if((B.pos_x - A.pos_x) * (point.pos_y - A.pos_y) - (point.pos_x - A.pos_x) * (B.pos_y - A.pos_y) > 0)
-            return true;
-
-        return false;
     }
 
 
-    public int searchBaricentre(){
+    private void triang()
+    {
 
-        int xMin = 99999, xMax = -99999, yMin = 99999, yMax = -99999;
 
-        for(int i = 0; i<enveloppeConvexe.size(); i++) {
-            if(enveloppeConvexe.get(i).getX() < xMin)
-                xMin = enveloppeConvexe.get(i).getX();
-            if(enveloppeConvexe.get(i).getX() > xMax)
-                xMax = enveloppeConvexe.get(i).getX();
-            if(enveloppeConvexe.get(i).getY() < yMin)
-                yMin = enveloppeConvexe.get(i).getY();
-            if(enveloppeConvexe.get(i).getY() > yMax)
-                yMax = enveloppeConvexe.get(i).getY();
-        }
+        for(int i=convsNumber-1;i>0;--i)
+        {
 
-        return searchClosestPoint(new Point(xMax - xMin, yMax - yMin));
-    }
 
-    public int searchClosestPoint(Point point){
+            if(conv.get(i).convPolygon.size()<conv.get(i+1).convPolygon.size())
+            {
 
-        int indBaricentre = 0;
-        Vector closest = new Vector(point, cloud.get(0));
+                for (int j = 0; j < conv.get(i).convPolygon.size(); ++j)
+                {
 
-        for(int i=1; i<cloud.size(); i++){
+                    conv.get(i).convPolygon.get(j).degree+=2;
+                    conv.get(i+1).convPolygon.get(j).degree++;
+                    conv.get(i+1).convPolygon.get(j+1).degree++;
+                    Point[] arc={conv.get(i).convPolygon.get(j),conv.get(i+1).convPolygon.get(j)};
+                    Point[] arc0={conv.get(i).convPolygon.get(j),conv.get(i+1).convPolygon.get(j+1)};
 
-            if(isThisPointInsideTriangle(cloud.get(i))) {
-                Vector temp = new Vector(point, cloud.get(i));
-                if (temp.getNorme() < closest.getNorme()) {
-                    closest = temp;
-                    indBaricentre = i;
+                    arcs.add(arc);
+                    arcs.add(arc0);
+
                 }
+
+            }else
+            {
+
+                for(int j=0;j<conv.get(i+1).convPolygon.size();++j)
+                {
+
+                    conv.get(i+1).convPolygon.get(j).degree+=2;
+                    conv.get(i).convPolygon.get(j).degree++;
+                    conv.get(i).convPolygon.get(j+1).degree++;
+                    Point[] arc={conv.get(i+1).convPolygon.get(j),conv.get(i).convPolygon.get(j)};
+                    Point[] arc0={conv.get(i+1).convPolygon.get(j),conv.get(i).convPolygon.get(j+1)};
+
+                    arcs.add(arc);
+                    arcs.add(arc0);
+
+
+                }
+
             }
 
         }
 
-        return indBaricentre;
+
 
     }
 
-    /*
 
-
-    public void Triangulation()
+    public void drawTriang(Graphics graphics,int factorx, int factory)
     {
 
+        GeneratePoints.drawList(graphics,factorx,factory,this.cloud);
 
+        for(int i=0;i<convsNumber;++i)
+        {
+
+            conv.get(i).drawConvexe(graphics,factorx,factory);
+
+        }
+
+        for(int i=0;i<arcs.size();++i)
+        {
+
+            drawArcs(graphics,factorx,factory,arcs.get(i)[0],arcs.get(i)[1]);
+
+        }
 
     }
 
+    private void drawArcs(Graphics graphics,int factorx,int factory,Point A,Point B)
+    {
 
-     */
+        graphics.drawLine(A.getX()*factorx,A.getY()*factory
+                ,B.getX()*factorx,B.getY()*factory);
 
+    }
 }
 
