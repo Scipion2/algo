@@ -2,6 +2,7 @@ package triangulation;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class GeneratePoints
@@ -42,13 +43,17 @@ public class GeneratePoints
 
     }
 
-    static void drawList(Graphics graphics, int factorx, int factory, List<Point> cloud)
+    public static void drawList(Graphics graphics, int factorx, int factory, List<Point> cloud)
     {
 
-        for (Point point : cloud) {
 
+        for(int i=0;i<cloud.size();++i)
+        {
 
-            Point withVector = new Point(point.getX() * factorx, point.getY() * factory);
+            System.out.println(cloud.size());
+
+            Point withVector = new Point(cloud.get(i).getX() * factorx, cloud.get(i).getY() * factory);
+            //System.out.println("I.X ="+cloud.get(i).getX()+"  I.Y ="+cloud.get(i).getY()+"\nwithVector X="+withVector.getX()+" Y="+withVector.getY());
             withVector.drawPoint(graphics);
 
         }

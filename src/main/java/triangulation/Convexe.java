@@ -18,7 +18,7 @@ public class Convexe
     public Convexe(List<Point> src)
     {
 
-        System.out.println("test");
+        //System.out.println("test");
         this.convPolygon=get_convex(src);
         for(int i=0;i<convPolygon.size();++i)
         {
@@ -27,7 +27,7 @@ public class Convexe
 
         }
 
-        System.out.println("test2");
+        //System.out.println("test2");
 
 
     }
@@ -157,7 +157,7 @@ public class Convexe
     public void drawConvexe(Graphics graphics,int factorx,int factory)
     {
 
-        System.out.println("draw");
+        //System.out.println("draw");
 
         for(int i=0;i<convPolygon.size()-1;++i)
         {

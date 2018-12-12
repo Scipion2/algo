@@ -1,6 +1,8 @@
 package GUI;
 
 
+import triangulation.GeneratePoints;
+import triangulation.Point;
 import triangulation.Triangulation;
 import javax.swing.JPanel;
 
@@ -25,6 +27,7 @@ class Panel extends JPanel
 
         int factorx=this.getWidth()/data[2];
         int factory=this.getHeight()/data[4];
+
 
         triang.drawTriang(getGraphics(),factorx,factory);
 
